@@ -1,42 +1,23 @@
 const sgMail = require('@sendgrid/mail')
 
-const sendGridApiKey = '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'
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-sgMail.setApiKey(sendGridApiKey)
-
-sgMail.send({
-    to: 'go.gusfm@gmail.com',
-    from: 'gustavo_fm2@hotmail.com',
-    subject: 'This is a test email',
-    text: 'I hope you get this one!',
-})
-
-window.onload = () => {
-    const texterino = {
-        en: 'Follow Us',
-        es: 'Síguenos',
-    }
-    const lang = document.documentElement.lang
-    if (lang !== 'pt-BR') {
-        let follow = document
-            .getElementById('aux_socials_list-3')
-            .getElementsByClassName('widget-title')[0]
-        let footerImage = document.getElementById('media_image-5').querySelector('img')
-        let subLogo = document.getElementsByClassName('aux-logo-anchor2')[0].querySelector('img')
-
-        switch (lang) {
-            case 'en-US':
-                follow.textContent = texterino.en
-                footerImage.src =
-                    'http://150.162.6.101/wcmac/wp-content/uploads/2018/09/magnifying-glass.png'
-                subLogo.src =
-                    'http://150.162.6.101/wcmac/wp-content/uploads/2018/09/magnifying-glass.png'
-                break
-            case 'es-MX':
-                follow.textContent = texterino.es
-                footerImage.src = 'http://150.162.6.101/wcmac/wp-content/uploads/2018/09/wrench.png'
-                subLogo.src = 'http://150.162.6.101/wcmac/wp-content/uploads/2018/09/wrench.png'
-                break
-        }
-    }
+const welcomeEmail = (email, name) => {
+    sgMail.send({
+        to: email,
+        from: 'gustavo_fm2@hotmail.com',
+        subject: 'Thanks for joining our tasks platform!',
+        text: `Welcome to our app ${name}, if you need any further assistence please contact me.`
+    })
 }
+
+const sendCancelationEmail = (email, name) => {
+    sgMail.send({
+        to: email,
+        from: 'gustavo_fm2@hotmail.com',
+        subject: 'We are sad to see you go :(',
+        text: `${name}, We would like to know why you are leaving... Please let us know.`
+    })
+}
+
+module.exports = { welcomeEmail, sendCancelationEmail }
