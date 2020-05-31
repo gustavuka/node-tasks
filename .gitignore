@@ -109,4 +109,6 @@ dist/
 tmp/
 temp/
 
+local_db_connect.txt
+
 # End of https://www.gitignore.io/api/node
